@@ -1,0 +1,102 @@
+<div class="background">
+    <div class="hh">title_showdemo</div>
+    <div class="title">TEXT</div>
+    <textarea class="inputarea" id="content" ng-model="analysisTitle" placeholder="Enter text to be analyzed..."></textarea>
+    <a class="button button-3d button-primary button-rounded analyze_button" ng-click="displayTarget1(analysisTitle)" >ANALYZE</a>
+
+    <div>
+        <!-- <table>
+            <tr>
+                <th> -->
+                    <select id="uiSel" class="dropbtn button button-glow button-border button-rounded button-primary">
+                        <a value="-1">Demo</a>
+                        <option value="">Demo</option>
+                        <option value="My lenovo k3 note is download new version 6.0 and old is 5.0 and when it getted restarted the device is not getting started it is hanged at 49% so give me solution restarted the device is not getting started it is hanged at 49% so give me solution restarted the device is not getting started it is hanged at 49% so give me solution restarted the device is not getting started it is hanged at 49% so give me solution">Demo1</option>
+                        <option value="k3 note actually is a good phone for those seeking budget phone...heating issues n insensitive touch screen noted bcos of its mediatek processor compared to snapdragon.">Demo2</option>
+                        <option value="Yes... Very problem during any call.">Demo3</option>
+
+                    </select>
+                <!-- </th>
+                <th>
+                    <div class="file-box">
+                        <form action="" method="post" enctype="multipart/form-data">
+                            <input type='text' name='textfield' id='textfield' class='txt' value="File..." />
+                            <input type="file" name="fileField" class="file" id="fileField" size="28" onchange="document.getElementById('textfield').value=this.value" />
+                            <input type="submit" name="submit" class="btn" value="Upload" />
+                        </form>
+                    </div>
+                </th>
+            </tr>
+        </table> -->
+    </div>
+
+</div>
+
+<container>
+<nav>
+<div class="background" id="target" ng-if="showTarget">
+    <div class="title">TARGETS</div>
+    <div class="card"  ng-repeat="analysisItem in analysisArray track by $index">
+        <div class="card-body card-target" type="button" ng-click="displayDetail(analysisItem)">{{analysisItem.title}}</div>
+        <div >
+            <div class="length" ng-repeat="number in analysisItem.number track by $index">
+                <div class=" bar_text" ng-style="rateArray[$index]" ng-click="updateComment(number)">
+                    <span>{{number}}</span>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="length progress">
+            <div ng-style="rate.nagetive" class="progress-bar progress-bar-success" >
+                <span>+</span>
+            </div>
+            <div ng-style="rate.normal" class="progress-bar progress-bar-info" >
+                <span>N</span>
+            </div>
+            <div  ng-style="rate.position" class="progress-bar progress-bar-warning">
+                <span>-</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="background" id="categories" ng-if="showDetail">
+    <div class="title">CATEGORIES</div>
+    <div class="category_card" >
+        <div class="card-body card-target" type="button">{{details.title}}</div>
+        <div class="category_box">
+            <div>
+                <table class="category_card_txt"><tr><td><li>{{details.description}}</li></td>
+                    <td>
+                        <div class="length_small progress">
+                            <div class="progress-bar progress-bar-success" style="width: 40%;">
+                                <span>{{details.number}}</span>
+                            </div>
+                            <div class="progress-bar progress-bar-info" style="width: 30%;">
+                                <span>{{details.number}}</span>
+                            </div>
+                            <div class="progress-bar progress-bar-warning" style="width: 30%;">
+                                <span>{{details.number}}</span>
+                            </div>
+                        </div>
+                    </td></tr></table>
+
+            </div>
+        </div>
+    </div>
+
+</div>
+</nav>
+<section>
+<div class='box' id="comments"  ng-if="showComment">
+
+    <div class='wave -one'></div>
+    <div class='wave -two'></div>
+    <div class='wave -three'></div>
+    <div class='comments'>Comments</div>
+    <div>{{commentNumber}}</div>
+    <div class="comments_text">the first time comments conchange funchting options value is the a best time of my h</div>
+</div>
+</section>
+</container>
