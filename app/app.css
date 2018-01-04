@@ -27,7 +27,7 @@
 .background{
   background: #f7f7f7;
   margin: 20px;
-  padding: 10px 0px 10px 15px
+  padding: 10px 20px 10px 20px
 }
 .title{
   font-family: Arial,serif;
@@ -45,7 +45,7 @@
   color: #7B7B7B;
   font-size: .8em;
   padding: 10px;
-  margin: 0px 0px 0px 10px;
+  margin: 0px 0px 0px 0px;
   font-family: Arial,serif;
 }
 
