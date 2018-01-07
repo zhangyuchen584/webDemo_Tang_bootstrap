@@ -52,7 +52,7 @@ function View1Ctrl($rootScope, $scope, $http) {
             //var destinationURL = '10.218.112.25:12341';
         var config = {
             headers: {
-                'Content-Type': undefined
+                'Content-Type': 'application/json'
                 //'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'
                     //x-www-form-urlencoded
                     //'Content-Type': 'application/json'
@@ -68,6 +68,7 @@ function View1Ctrl($rootScope, $scope, $http) {
         }, $scope.errorOutput);
         */
     }
+
 
 
 //唐姐姐之前写的，现在已经用不上了
@@ -87,7 +88,8 @@ function View1Ctrl($rootScope, $scope, $http) {
         $scope.analysisArray = [];
         */
         $scope.analysisArray = [];
-        var analysisResultObject = JSON.parse(analysisTitle1);
+        //var analysisResultObject = JSON.parse(analysisTitle1);
+        var analysisResultObject = analysisTitle1.data;
         var sentences = analysisResultObject.sentences;
         for (var i = 0; i < sentences.length; i++) {
             var sentence = sentences[i];
@@ -100,6 +102,8 @@ function View1Ctrl($rootScope, $scope, $http) {
                 analysisObj['category'] = opinion.category;
                 analysisObj['polarity'] = opinion.polarity;
                 analysisObj['target'] = opinion.target;
+                analysisObj['text'] = text;
+                analysisObj['tokenizedText'] = tokenizedText;
                 $scope.analysisArray.push(analysisObj);
             }
         }

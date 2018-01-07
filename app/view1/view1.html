@@ -10,7 +10,7 @@
             <div class="hh">title_showdemo</div>
             <div class="title">TEXT</div>
             <div class="row_fluid">
-                <textarea class="span9.5 inputarea" id="content" ng-model="analysisTitle" placeholder="Enter text to be analyzed..."></textarea>
+                <textarea class="span9.5 inputarea" id="content" ng-model="analysisTitle" placeholder="Enter text to be analyzed...">{{selectDemo.comments}}</textarea>
                 <a class="span2.5 button button-3d button-primary button-rounded analyze_button" ng-click="displayTarget(analysisTitle)">
                 ANALYZE
                 </a>
@@ -44,7 +44,7 @@
             <div class="background" id="target" ng-if="showTarget">
                 <div class="title">TARGETS</div>
                 <div class="card"  ng-repeat="analysisItem in analysisArray track by $index">
-                    <div class="card-body card-target" type="button" ng-click="displayDetail(analysisItem)">{{analysisItem.title}}</div>
+                    <div class="card-body card-target" type="button" ng-click="displayDetail(analysisItem)">{{analysisItem.target}}</div>
                     <div >
                         <div class="length" ng-repeat="number in analysisItem.number track by $index">
                             <div class=" bar_text" ng-style="rateArray[$index]" ng-click="updateComment(number)">
