@@ -54,8 +54,6 @@ function View1Ctrl($rootScope, $scope, $http) {
             headers: {
                 'Content-Type': 'application/json'
                 //'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'
-                    //x-www-form-urlencoded
-                    //'Content-Type': 'application/json'
             },
             //transformRequest: angular.identity
         }
@@ -70,17 +68,8 @@ function View1Ctrl($rootScope, $scope, $http) {
     }
 
 
-    //去重
-    function unique(array) {
-        var n = []; //临时数组
-        for (var i = 0; i < array.length; i++) {
-            if (n.indexOf(array[i]) == -1) n.push(array[i]);
-        }
-        return n;
-    }
 
-//唐姐姐之前写的，现在已经用不上了
-    $scope.extractTargetData = function(analysisTitle1) {
+    $scope.extractTargetData = function(analysisSentence) {
         console.log("successsssssssssss");
         /*
         if (!analysisTitle) {
@@ -95,11 +84,12 @@ function View1Ctrl($rootScope, $scope, $http) {
         }
         $scope.analysisArray = [];
         */
+
         $scope.analysisArray = [];
         //var analysisResultObject = JSON.parse(analysisTitle1);
-        var analysisResultObject = analysisTitle1.data;
-        var sentences = analysisResultObject.sentences;
-        var TargetList = [];
+        var analysisResultObject = analysisSentence.data;
+        var sentences = analysisResultObject.sentences;        
+        $scope.UniqueTargetList = [];
         
         // var a = [1,2,3,4,5];
         // var b = a.push(6,7); //a：[-2,-1,1,2,3,4,5]   b：7
@@ -108,12 +98,9 @@ function View1Ctrl($rootScope, $scope, $http) {
 
         for (var i = 0; i < sentences.length; i++) {
             var sentence = sentences[i];
-            var opinions = sentence.opinions;
+            var opinions = sentence.opinions; //target,category,polarity
             var text = sentence.text;
             // var tokenizedText = sentence.tokenizedText;
-            //console.log(opinions)//{category: "DRINKS#PRICES", polarity: "negative", target: "dictumst"}
-            //console.log(text);//sentence
-            // console.log(tokenizedText)
 
             for (var j = 0; j < opinions.length; j++) {
                 var analysisObj = {};
@@ -121,40 +108,53 @@ function View1Ctrl($rootScope, $scope, $http) {
                 analysisObj['category'] = opinion.category;
                 analysisObj['polarity'] = opinion.polarity;
                 analysisObj['target'] = opinion.target;
+
+                if (analysisObj['target'] == 'NULL') {
+                    continue;
+                    console.log('ISNULL');
+
+                }
+
                 analysisObj['text'] = text;
                 // analysisObj['tokenizedText'] = tokenizedText;
                 $scope.analysisArray.push(analysisObj);
-                TargetList.push(analysisObj['target']);
-                
-                //console.log(analysisObj['target']);
-                
-                //console.log(i in analysisObj['target1']);
 
             }
-        
 
-
-
-        //console.log(TargetList);
         }
-        console.log(TargetList); 
-        TargetList = unique(TargetList);
-        console.log(TargetList);
 
-        // var arr = ["apple", "orange", "apple", "orange", "pear", "orange"];
-
-        // function getWordCnt() {
-        //     return arr.reduce(function(prev, next) {
-        //         prev[next] = (prev[next] + 1) || 1;
-        //         return prev;
-        //     }, {});
-        // }
-        // console.log(getWordCnt());
-
-
-
-
-
+        
+        // remove duplicate target
+        var flags = [],
+            output = [],
+            l = $scope.analysisArray.length,
+            i;
+        for (i = 0; i < l; i++) {
+            if (flags[$scope.analysisArray[i].target]) continue;
+            flags[$scope.analysisArray[i].target] = true;
+            $scope.UniqueTargetList.push({target: $scope.analysisArray[i].target,
+                targetNegVol: 0, targetPosiVol:0,targetNeutVol:0,targetNegSent:[]});
+            
+        }
+        
+        for (i=0;i<$scope.UniqueTargetList.length;i++){
+            for (j=0;j<$scope.analysisArray.length;j++){
+                if ($scope.UniqueTargetList[i].target == $scope.analysisArray[j].target) {
+                if ($scope.analysisArray[j].polarity == "negative"){$scope.UniqueTargetList[i].targetNegVol++}
+                else {
+                    if ($scope.analysisArray[j].polarity == "positive"){$scope.UniqueTargetList[i].targetPosiVol++} 
+                        else {$scope.UniqueTargetList[i].targetNeutVol++}
+                }
+                }
+                else {
+                    continue;
+                }
+                
+            }
+        }
+        console.log($scope.UniqueTargetList)
+        console.log($scope.analysisArray);
+        
 
         /*
         for (var i = 0; i < analysisArray.length; ++i) {
@@ -167,6 +167,14 @@ function View1Ctrl($rootScope, $scope, $http) {
         $scope.showTarget = true;
         $scope.showComment = true;
     }
+
+
+
+
+
+
+
+
 
     $scope.displayDetail = function(analysisItem) {
         $scope.showDetail = true;

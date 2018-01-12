@@ -44,8 +44,9 @@
         <nav>
             <div class="background" id="target" ng-if="showTarget">
                 <div class="title">TARGETS</div>
-                <div class="card"  ng-repeat="analysisObj in analysisArray track by $index">
-                    <div class="card-body card-target" type="button" ng-click="displayDetail(analysisItem)">{{analysisObj.target}}</div>
+                <div class="card"  ng-repeat="Obj in UniqueTargetList track by $index">
+                    <div class="card-body card-target" type="button" ng-click="displayDetail(analysisItem)">{{Obj.target}}</div>
+
                     <div >
                         <div class="length" ng-repeat="number in analysisItem.number track by $index">
                             <div class=" bar_text" ng-style="rateArray[$index]" ng-click="updateComment(number)">
