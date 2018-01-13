@@ -48,9 +48,11 @@
                     <div class="card-body card-target" type="button" ng-click="displayDetail(analysisItem)">{{Obj.target}}</div>
 
                     <div >
-                        <div class="length" ng-repeat="number in analysisItem.number track by $index">
+                        <div class="length" >
                             <div class=" bar_text" ng-style="rateArray[$index]" ng-click="updateComment(number)">
-                                <span>{{number}}</span>
+                                <span>{{Obj.targetPosiVol}}</span>
+                                <span>{{Obj.targetNeutVol}}</span>
+                                <span>{{Obj.targetNegVol}}</span>
                             </div>
                         </div>
                     </div>
@@ -61,7 +63,7 @@
                         <div ng-style="rate.normal" class="progress-bar progress-bar-info" >
                             <span>N</span>
                         </div>
-                        <div  ng-style="rate.position" class="progress-bar progress-bar-warning">
+                        <div  ng-style="rate.positive" class="progress-bar progress-bar-warning">
                             <span>-</span>
                         </div>
                     </div>
