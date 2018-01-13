@@ -22,7 +22,7 @@ function View1Ctrl($rootScope, $scope, $http) {
 
     $scope.showTarget = false;
     $scope.showComment = false;
-    $scope.showDetail = false;
+    $scope.showCategory = false;
     $scope.details = {};
 
     $scope.displayTarget = function(analysisTitle) {
@@ -144,14 +144,7 @@ function View1Ctrl($rootScope, $scope, $http) {
         positive: $scope.rateArray[2]
     }
 
-    $scope.displayDetail = function(analysisItem) {
-        $scope.showDetail = true;
-        var details = {};
-        details['title'] = analysisItem.title;
-        details['number'] = analysisItem.number;
-        details['description'] = 'detail description';
-        $scope.details = details;
-    }
+
 
     $scope.updateComment = function(number) {
         $scope.commentNumber = number;
@@ -160,4 +153,17 @@ function View1Ctrl($rootScope, $scope, $http) {
     $scope.errorOutput = function() {
         console.log("errooooooooooor");
     }
+
+
+    $scope.ShowId = function(event) {
+        $scope.showCategory = true;
+        console.log(event.target.id);
+        // console.log($scope.UniqueTargetList[event.target.id].category);
+        $scope.returnCategory=$scope.UniqueTargetList[event.target.id].category;
+        console.log($scope.returnCategory)
+
+    };
+
+
+
 }
