@@ -12,55 +12,62 @@ angular.module('myApp.view1', ['ngRoute'])
 View1Ctrl.$inject = ['$rootScope', '$scope', '$http'];
 
 
-//function View1Ctrl($rootScope, $scope, $compile, $http) {
+
 function View1Ctrl($rootScope, $scope, $http) {
+    //demo button
     $scope.demos = {
         D1 : {comments : "Ford"},
         D2 : {comments : "Fiat"},
         D3 : {comments : "Volvo"}
     }
 
+    //hide target,category,comment first
     $scope.showTarget = false;
-    $scope.showComment = false;
     $scope.showCategory = false;
-    $scope.details = {};
+    $scope.showComment = false;
 
+    $scope.details = {};  //NO IDEA
+
+    //connect to ZQ httpserver
     $scope.displayTarget = function(analysisTitle) {
         //send http post request
         var destinationURL = 'http://localhost:8080';
         console.log(destinationURL)
             //var destinationURL = '10.218.112.25:12341';
         var config = {
-            headers: {
-                'Content-Type': 'application/json'
-                //'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'
-            },
-            //transformRequest: angular.identity
+            headers: {'Content-Type': 'application/json'},
         }
-
-        //$http.get(destinationURL).success(displayTarget);
         $http.post(destinationURL, analysisTitle, config).then($scope.extractTargetData, $scope.errorOutput);
-        /*
-        $http.post(destinationURL, analysisTitle, config).then(function (response) {
-            console.log("success");
-        }, $scope.errorOutput);
-        */
     }
 
 
 
-    $scope.extractTargetData = function(analysisSentence) {
-        console.log("successsssssssssss");
-        /*
-        if (!analysisTitle) {
-            console.log("no data");
-            return false;
+    //connect to anh tuan httpserver
+    $scope.displayTarget1 = function(text) {
+        //send http post request
+        var destinationURL = 'http://localhost:8088';
+        console.log(destinationURL)
+            //var destinationURL = '10.218.112.25:12341';
+        var config = {
+            headers: {'Content-Type': 'application/json'},
         }
-        */
+        $http.post(destinationURL, text, config).then($scope.test, $scope.errorOutput);
+    }
+
+
+
+
+
+
+
+    $scope.extractTargetData = function(analysisSentence) {
+        // console.log("successsssssssssss");
 
         $scope.analysisArray = [];
         //var analysisResultObject = JSON.parse(analysisTitle1);
+        console.log(analysisSentence)
         var analysisResultObject = analysisSentence.data;
+
         var sentences = analysisResultObject.sentences;        
         $scope.UniqueTargetList = [];
     
@@ -102,7 +109,7 @@ function View1Ctrl($rootScope, $scope, $http) {
             if (flags[$scope.analysisArray[i].target]) continue;
             flags[$scope.analysisArray[i].target] = true;
             $scope.UniqueTargetList.push({target: $scope.analysisArray[i].target,
-                targetNegVol: 0, targetPosiVol:0,targetNeutVol:0,category:[],targetNegSent:[]});
+                targetNegVol: 0, targetPosiVol:0,targetNeutVol:0,category:[],targetNegSent:[],targetPosiSent:[],targetNeutSent:[]});
             
         }
         
@@ -110,10 +117,13 @@ function View1Ctrl($rootScope, $scope, $http) {
             for (j=0;j<$scope.analysisArray.length;j++){
                 if ($scope.UniqueTargetList[i].target == $scope.analysisArray[j].target) {
                     $scope.UniqueTargetList[i].category.push({category:$scope.analysisArray[j].category});
-                if ($scope.analysisArray[j].polarity == "negative"){$scope.UniqueTargetList[i].targetNegVol++}
+                if ($scope.analysisArray[j].polarity == "negative"){$scope.UniqueTargetList[i].targetNegVol++;
+                    $scope.UniqueTargetList[i].targetNegSent.push({category:$scope.analysisArray[j].text})}
                 else {
-                    if ($scope.analysisArray[j].polarity == "positive"){$scope.UniqueTargetList[i].targetPosiVol++} 
-                        else {$scope.UniqueTargetList[i].targetNeutVol++}
+                    if ($scope.analysisArray[j].polarity == "positive"){$scope.UniqueTargetList[i].targetPosiVol++;
+                        $scope.UniqueTargetList[i].targetPosiSent.push({category:$scope.analysisArray[j].text})} 
+                        else {$scope.UniqueTargetList[i].targetNeutVol++;
+                            $scope.UniqueTargetList[i].targetNeutSent.push({category:$scope.analysisArray[j].text})}
                 }
                 }
                 else {
@@ -126,7 +136,7 @@ function View1Ctrl($rootScope, $scope, $http) {
         console.log($scope.analysisArray);
         
         $scope.showTarget = true;
-        $scope.showComment = true;
+        
     }
 
 
@@ -157,13 +167,30 @@ function View1Ctrl($rootScope, $scope, $http) {
 
     $scope.ShowId = function(event) {
         $scope.showCategory = true;
-        console.log(event.target.id);
-        // console.log($scope.UniqueTargetList[event.target.id].category);
         $scope.returnCategory=$scope.UniqueTargetList[event.target.id].category;
-        console.log($scope.returnCategory)
+        
+        //remove duplicate category
+        var flags = [],
+            output = [],
+            l = $scope.returnCategory.length,
+            i;
+        $scope.uniqreturnCategory = []
+        // console.log($scope.returnCategory.length)
+        for (i = 0; i < l; i++) {
+            if (flags[$scope.returnCategory[i].category]) continue;
+            flags[$scope.returnCategory[i].category] = true;
+            $scope.uniqreturnCategory.push({uniqcategory:$scope.returnCategory[i].category});
+        }
+        console.log(1)
+        console.log($scope.uniqreturnCategory)     
 
     };
 
+
+    $scope.test = function(text){
+        console.log("success")
+        console.log(text.data)
+    }
 
 
 }

@@ -7,7 +7,10 @@
     </head>
     <body>
          
-
+    <textarea class="span9.5 inputarea" id="content" ng-model="text" placeholder="Enter text to be analyzed..."></textarea>
+    <a class="span2.5 button button-3d button-primary button-rounded analyze_button" ng-click="displayTarget1(text)">
+        ANALYZE
+    </a>
 
         <div class="background">
             <div class="hh">title_showdemo</div>
@@ -54,9 +57,9 @@
                     <div >
                         <div class="length" >
                             <div class=" bar_text" ng-style="rateArray[$index]" ng-click="updateComment(number)">
+                                <span>{{Obj.targetNegVol}}</span>
                                 <span>{{Obj.targetPosiVol}}</span>
                                 <span>{{Obj.targetNeutVol}}</span>
-                                <span>{{Obj.targetNegVol}}</span>
                             </div>
                         </div>
                     </div>
@@ -75,8 +78,8 @@
             </div>
             <div class="background" id="categories" ng-if="showCategory">
                 <div class="title">CATEGORIES</div>
-                <div class="category_card"  ng-repeat = "Obj in returnCategory track by $index">
-                    <div class="card-body card-target" type="button">{{Obj.category}}</div>
+                <div class="card"  ng-repeat = "Obj in uniqreturnCategory track by $index">
+                    <div class="card-body card-target" type="button">{{Obj.uniqcategory}}</div>
                     <div class="category_box">
                         <div>
                             <table class="category_card_txt"><tr><td><li>{{details.description}}</li></td>
