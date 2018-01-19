@@ -109,11 +109,11 @@ function View1Ctrl($rootScope, $scope, $http) {
         // console.log($scope.UniqueCategoryList)
         $scope.showCategory = true;
 
-        $scope.TargetPolarity($scope.UniqueTargetList) //import!!/
+        $scope.TargetPolarity($scope.UniqueTargetList) 
+        $scope.CategoryPolarity($scope.UniqueCategoryList) 
 
 
     }
-
 
 
     $scope.TargetPolarity = function(text) {
@@ -132,30 +132,33 @@ function View1Ctrl($rootScope, $scope, $http) {
             TarComPair = 'target.'+ text[item].target + '.comment. ' + text[item].comment
             // console.log(TarComPair)
             
-            $http.post(destinationURL, TarComPair, config).then($scope.test, $scope.errorOutput);
+            $http.post(destinationURL, TarComPair, config).then($scope.PrintTarget, $scope.errorOutput);
 
         }
 
+
     }
+    $scope.CategoryPolarity = function(text) {
+        //send http post request to Anh Tuan API
+        for (item in text) {
+            // console.log(text[item])
+            var destinationURL = 'http://localhost:8088';
+            //var destinationURL = '10.218.112.25:12341';
+            var config = {
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+            }
+            // TarComPair = Object.keys(text[item])[0]+'.'+ text[item].target + '.comment. ' + text[item].comment
+            CatComPair = 'category.'+ text[item].category + '.comment. ' + text[item].comment
+            // console.log(TarComPair)
+            
+            $http.post(destinationURL, CatComPair, config).then($scope.PrintCategory, $scope.errorOutput);
 
-
-
-    // console.log($scope.UniqueTargetList)
-
-
-
-    //connect to anh tuan httpserver
-    $scope.displayTarget1 = function(text) {
-        //send http post request
-        console.log(text)
-        var destinationURL = 'http://localhost:8088';
-        //var destinationURL = '10.218.112.25:12341';
-        var config = {
-            headers: {'Content-Type': 'application/json'},
         }
-        $http.post(destinationURL, $scope.UniqueTargetList[0].target, config).then($scope.test, $scope.errorOutput);
-    }
 
+
+    }
 
 
 
@@ -285,11 +288,22 @@ function View1Ctrl($rootScope, $scope, $http) {
 
     // };
 
+    $scope.TarSenPol = []
+    $scope.CatSenPol = []
 
-    $scope.test = function(text){
-        // console.log("success")
-        // console.log(text.data)
+    $scope.PrintTarget = function(text){
+        $scope.TarSenPol.push(text.data);
+        console.log('TarSenPol');
+        console.log($scope.TarSenPol);
     }
+    
+
+    $scope.PrintCategory = function(text) {
+        $scope.CatSenPol.push(text.data);
+        console.log('CatSenPol')
+        console.log($scope.CatSenPol)
+    }
+    
 
 
 }
