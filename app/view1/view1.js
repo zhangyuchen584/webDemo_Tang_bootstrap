@@ -44,6 +44,11 @@ function View1Ctrl($rootScope, $scope, $http) {
         {category:"RESTAURANT#PRICES", catMapping:"price"},
         {category:"SERVICE#GENERAL", catMapping:"service"},]
     
+    var test = 
+        [{term:'food',polarity1:{po:1,sentence:{se1:'a',se2:'d'}}}
+        ]
+        console.log(test)
+        ++test[0].polarity1.po
 
     // Object.keys(catDicMapping).map(function(key,index){
     //     // console.log(catDicMapping[key].category)
@@ -117,7 +122,7 @@ function View1Ctrl($rootScope, $scope, $http) {
         
         for (var term in TemArray)
             {$scope.UniqueTargetList.push(TemArray[term])}
-        
+
         // console.log($scope.UniqueTargetList)
         $scope.showTarget = true;
 
@@ -125,7 +130,9 @@ function View1Ctrl($rootScope, $scope, $http) {
         var TemArray1 = [];
         $scope.UniqueCategoryList = [];
         for (var item in $scope.CategoryList){
+            // console.log(item)
             TemArray1[$scope.CategoryList[item].category+'-'+$scope.CategoryList[item].comment] = $scope.CategoryList[item];
+            // console.log(TemArray1)
         }
         
         for (var term in TemArray1)
@@ -166,6 +173,7 @@ function View1Ctrl($rootScope, $scope, $http) {
     $scope.CategoryPolarity = function(text) {
         //send http post request to Anh Tuan API
         for (item in text) {
+            // console.log(text[item])
             Object.keys(catDicMapping).map(function(key, index) {
                 if (catDicMapping[key].category == text[item].category) {
                     text[item].cat = catDicMapping[key].catMapping
@@ -173,7 +181,6 @@ function View1Ctrl($rootScope, $scope, $http) {
 
             });
             // console.log(text[item])
-
             var destinationURL = 'http://localhost:8088';
             //var destinationURL = '10.218.112.25:12341';
             var config = {
@@ -202,14 +209,35 @@ function View1Ctrl($rootScope, $scope, $http) {
 
         }
     }
+
     $scope.PrintCategory = function(text) {
+        Object.keys(catDicMapping).map(function(key, index) {
+            if (catDicMapping[key].category == text.data.term) {
+                text.data.category = catDicMapping[key].catMapping
+            }
+
+        });
         $scope.CatSenPol.push(text.data);
         if ($scope.CatSenPol.length == $scope.UniqueCategoryList.length) {
             console.log('bb')
             console.log($scope.CatSenPol)
 
+
+            //re-arrange category output: combine same categories            
+            TemArray2 = []
+            $scope.catOutPut = []
+            for (var item in $scope.CatSenPol){
+                TemArray2[$scope.CatSenPol[item].term] = []
+            }
+            for (var item in $scope.CatSenPol){
+                TemArray2[$scope.CatSenPol[item].term].push($scope.CatSenPol[item])
+            }
+            for (term in TemArray2){
+                $scope.catOutPut.push(TemArray2[term])
+            }
         }
     }
+
 
     $scope.updateSelected = function() {
         $scope.InputComments = $scope.selectDemo.comments
