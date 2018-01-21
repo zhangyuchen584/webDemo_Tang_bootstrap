@@ -18,7 +18,7 @@ function View1Ctrl($rootScope, $scope, $http) {
     $scope.demos = {
         D1 : {comments : "Facilisi facilisi nonummy lacus donec, dictumst pellentesque auctor mauris suscipit Ac cum et ornare massa per hac quis dis pellentesque. "},
         D2 : {comments : "Facilisi facilisi nonummy lacus donec, dictumst pellentesque auctor mauris suscipit Ac cum et ornare massa per hac quis dis pellentesque. Hendrerit donec accumsan enim ad felis Scelerisque sit, class facilisi sociosqu cubilia risus ornare est montes mattis. Eget vitae nibh, aenean. Proin imperdiet hac aenean. Praesent tristique ac. "},
-        D3 : {comments : "Volvo"}
+        D3 : {comments : "The food is food. The food is food. The food is food. The food is food. the food is bad.  The food is expensive.  The ice cream is yummy. The ice cream is terrible."}
     }
 
     //hide target,category,comment first
@@ -204,8 +204,62 @@ function View1Ctrl($rootScope, $scope, $http) {
     $scope.PrintTarget = function(text){
         $scope.TarSenPol.push(text.data);
         if ($scope.TarSenPol.length == $scope.UniqueTargetList.length) {
-            // console.log('aa')
+            // console.log('tarDu')
             // console.log($scope.TarSenPol)
+            TemArray3 = []
+            $scope.tarOutPut = []
+            for (var item in $scope.TarSenPol){
+                TemArray3[$scope.TarSenPol[item].term] = []
+            }
+            for (var item in $scope.TarSenPol){
+                TemArray3[$scope.TarSenPol[item].term].push($scope.TarSenPol[item])
+            }
+            for (term in TemArray3){
+                $scope.tarOutPut.push(TemArray3[term])
+            }
+
+
+
+            Object.keys($scope.tarOutPut).map(function(key,index){
+                var p0 = 0
+                var p1 = 0
+                var p2 = 0
+                var sen0 = []
+                var sen1 = []
+                var sen2 = []
+
+                Object.keys($scope.tarOutPut[key]).map(function(key1,index){
+                    if ($scope.tarOutPut[key][key1].polarity == 0){
+                        // console.log($scope.tarOutPut[key][key1])
+                        // console.log('aa')
+                        p0++;
+                        sen0.push($scope.tarOutPut[key][key1].sentence)
+
+                    }
+                    else if ($scope.tarOutPut[key][key1].polarity == 1) {
+                        p1++;
+                        sen1.push($scope.tarOutPut[key][key1].sentence)
+                    }
+                    else {
+                        p2++;
+                        sen2.push($scope.tarOutPut[key][key1].sentence)
+                    }
+                })
+                // console.log(p0,p1,p2)
+                $scope.tarOutPut[key].P0 = p0
+                $scope.tarOutPut[key].P0Sen = sen0
+                $scope.tarOutPut[key].P1 = p1
+                $scope.tarOutPut[key].P1Sen = sen1
+                $scope.tarOutPut[key].P2 = p2
+                $scope.tarOutPut[key].P2Sen = sen2
+                // console.log($scope.tarOutPut)
+            })
+            console.log($scope.tarOutPut)
+
+
+
+
+
 
         }
     }
@@ -217,12 +271,10 @@ function View1Ctrl($rootScope, $scope, $http) {
             }
 
         });
+
         $scope.CatSenPol.push(text.data);
         if ($scope.CatSenPol.length == $scope.UniqueCategoryList.length) {
-            console.log('bb')
             console.log($scope.CatSenPol)
-
-
             //re-arrange category output: combine same categories            
             TemArray2 = []
             $scope.catOutPut = []
@@ -235,6 +287,43 @@ function View1Ctrl($rootScope, $scope, $http) {
             for (term in TemArray2){
                 $scope.catOutPut.push(TemArray2[term])
             }
+
+            
+            Object.keys($scope.catOutPut).map(function(key,index){
+                var p0 = 0
+                var p1 = 0
+                var p2 = 0
+                var sen0 = []
+                var sen1 = []
+                var sen2 = []
+
+                Object.keys($scope.catOutPut[key]).map(function(key1,index){
+                    if ($scope.catOutPut[key][key1].polarity == 0){
+                        // console.log($scope.catOutPut[key][key1])
+                        // console.log('aa')
+                        p0++;
+                        sen0.push($scope.catOutPut[key][key1].sentence)
+
+                    }
+                    else if ($scope.catOutPut[key][key1].polarity == 1) {
+                        p1++;
+                        sen1.push($scope.catOutPut[key][key1].sentence)
+                    }
+                    else {
+                        p2++;
+                        sen2.push($scope.catOutPut[key][key1].sentence)
+                    }
+                })
+                // console.log(p0,p1,p2)
+                $scope.catOutPut[key].P0 = p0
+                $scope.catOutPut[key].P0Sen = sen0
+                $scope.catOutPut[key].P1 = p1
+                $scope.catOutPut[key].P1Sen = sen1
+                $scope.catOutPut[key].P2 = p2
+                $scope.catOutPut[key].P2Sen = sen2
+                // console.log($scope.catOutPut)
+            })
+            console.log($scope.catOutPut)
         }
     }
 
