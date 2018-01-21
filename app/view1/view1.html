@@ -6,46 +6,53 @@
         <link href="../bootstrap-responsive.css" rel="stylesheet">
     </head>
     <body>
-         
-  <!--   <textarea class="span9.5 inputarea" id="content" ng-model="text" placeholder="Enter text to be analyzed..."></textarea>
-    <a class="span2.5 button button-3d button-primary button-rounded analyze_button" ng-click="displayTarget1(text)">
-        ANALYZE
-    </a> -->
 
-        <div class="background">
-            <div class="hh">title_showdemo</div>
-            <div class="title">TEXT</div>
-            <div class="row_fluid">
-                <textarea class="span9.5 inputarea" id="content" ng-model="InputComments" placeholder="Enter text to be analyzed..."></textarea>
-                <a class="span2.5 button button-3d button-primary button-rounded analyze_button" ng-click="displayTarget(InputComments)">
-                ANALYZE
-                </a>
-            </div>
-         
-            <!--     <div class="span3">
-                <table>
-                    <tr>
-                        <th> -->
-                            <select id="uiSel" class="span1 dropbtn button button-glow button-border button-rounded button-primary" ng-model="selectDemo" ng-options="x for (x,y) in demos">
-                                <option value="">Demo</option>
-                            </select>
-                            
-                            <textarea>{{selectDemo.comments}}</textarea>
-                        <!-- </th>
-                        <th>
-                            <div class="file-box">
-                                <form action="" method="post" enctype="multipart/form-data">
-                                    <input type='text' name='textfield' id='textfield' class='txt' value="File..." />
-                                    <input type="file" name="fileField" class="file" id="fileField" size="28" onchange="document.getElementById('textfield').value=this.value" />
-                                    <input type="submit" name="submit" class="btn" value="Upload" />
-                                </form>
+        <div class="background row-fluid">
+            <div class="span12">
+                <!-- show_demo -->
+                <div class="hh">title_showdemo</div>
+                <div class="row-fluid">
+                    <div class="span12">
+                        <!-- title -->
+                        <div class="title">TEXT</div>
+                        <div class="row-fluid">
+                            <div class="span10">
+                            <!-- textarea -->
+                                <textarea class="span12 inputarea" id="content" ng-model="InputComments" placeholder="Enter text to be analyzed..."></textarea>
+                            <div class="row-fluid">
+                                <div class="span2">
+                                    <!-- demo -->
+                                    <select id="uiSel" class="span12 dropbtn button button-glow button-border button-rounded button-primary" ng-model="selectDemo" ng-options="x for (x,y) in demos" ng-change=updateSelected()>
+                                        <option value="">Demo</option>
+                                    </select>
+                                </div>
+                                <div ng-repeat="cat in TarSenPol"> {{cat.term}}</div>
+                                <!-- <div ng-repeat="cat in CatSenPol"> {{cat.polarity}}-{{cat.term}}</div> -->
+
+                                
                             </div>
-                        </th>
-                    </tr>
-                </table>
-            </div> -->
-            
+                            </div>
+                            <div class="span2">
+                                <!-- analyze button -->
+                                <a class="span12 button button-3d button-primary button-rounded analyze_button" ng-click="displayTarget(InputComments)">
+                                    ANALYZE
+                                </a>
+
+                            </div>
+                            <!-- <textarea>{{selectDemo.comments}}</textarea> -->        
+        
+        
+        
+
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
         </div>
+
+
+
         <container>
         <nav>
             <div class="background" id="target" ng-if="showTarget">

@@ -16,8 +16,8 @@ View1Ctrl.$inject = ['$rootScope', '$scope', '$http'];
 function View1Ctrl($rootScope, $scope, $http) {
     //demo button
     $scope.demos = {
-        D1 : {comments : "Ford"},
-        D2 : {comments : "Fiat"},
+        D1 : {comments : "Facilisi facilisi nonummy lacus donec, dictumst pellentesque auctor mauris suscipit Ac cum et ornare massa per hac quis dis pellentesque. "},
+        D2 : {comments : "Facilisi facilisi nonummy lacus donec, dictumst pellentesque auctor mauris suscipit Ac cum et ornare massa per hac quis dis pellentesque. Hendrerit donec accumsan enim ad felis Scelerisque sit, class facilisi sociosqu cubilia risus ornare est montes mattis. Eget vitae nibh, aenean. Proin imperdiet hac aenean. Praesent tristique ac. "},
         D3 : {comments : "Volvo"}
     }
 
@@ -27,6 +27,31 @@ function View1Ctrl($rootScope, $scope, $http) {
     $scope.showComment = false;
 
     $scope.details = {};  //NO IDEA
+
+    //category dictionary mapping
+
+    var catDicMapping = 
+        [{category:"AMBIENCE#GENERAL", catMapping:"ambience"},
+        {category:"DRINKS#PRICES", catMapping:"price"},
+        {category:"DRINKS#QUALITY", catMapping:"food"},
+        {category:"DRINKS#STYLE_OPTIONS", catMapping:"food"},
+        {category:"FOOD#PRICES", catMapping:"price"},
+        {category:"FOOD#QUALITY", catMapping:"food"},
+        {category:"FOOD#STYLE_OPTIONS", catMapping:"food"},
+        {category:"LOCATION#GENERAL", catMapping:"anecdotes/miscellaneous"},
+        {category:"RESTAURANT#GENERAL", catMapping:"anecdotes/miscellaneous"},
+        {category:"RESTAURANT#MISCELLANEOUS", catMapping:"anecdotes/miscellaneous"},
+        {category:"RESTAURANT#PRICES", catMapping:"price"},
+        {category:"SERVICE#GENERAL", catMapping:"service"},]
+    
+
+    // Object.keys(catDicMapping).map(function(key,index){
+    //     // console.log(catDicMapping[key].category)
+    //     if (catDicMapping[key].category == 'AMBIENCE#GENERAL') {
+    //         console.log(catDicMapping[key].catMapping)
+    //     }
+           
+    // });
 
     //connect to ZQ httpserver
     $scope.displayTarget = function(analysisTitle) {
@@ -97,14 +122,14 @@ function View1Ctrl($rootScope, $scope, $http) {
         $scope.showTarget = true;
 
         //remove category duplicate records in Dictionary
-        var TemArray = [];
+        var TemArray1 = [];
         $scope.UniqueCategoryList = [];
         for (var item in $scope.CategoryList){
-            TemArray[$scope.CategoryList[item].category+'-'+$scope.CategoryList[item].comment] = $scope.CategoryList[item];
+            TemArray1[$scope.CategoryList[item].category+'-'+$scope.CategoryList[item].comment] = $scope.CategoryList[item];
         }
         
-        for (var term in TemArray)
-            {$scope.UniqueCategoryList.push(TemArray[term])}
+        for (var term in TemArray1)
+            {$scope.UniqueCategoryList.push(TemArray1[term])}
         
         // console.log($scope.UniqueCategoryList)
         $scope.showCategory = true;
@@ -141,7 +166,14 @@ function View1Ctrl($rootScope, $scope, $http) {
     $scope.CategoryPolarity = function(text) {
         //send http post request to Anh Tuan API
         for (item in text) {
+            Object.keys(catDicMapping).map(function(key, index) {
+                if (catDicMapping[key].category == text[item].category) {
+                    text[item].cat = catDicMapping[key].catMapping
+                }
+
+            });
             // console.log(text[item])
+
             var destinationURL = 'http://localhost:8088';
             //var destinationURL = '10.218.112.25:12341';
             var config = {
@@ -157,7 +189,30 @@ function View1Ctrl($rootScope, $scope, $http) {
 
         }
 
+    }
 
+
+    $scope.TarSenPol = []
+    $scope.CatSenPol = []
+    $scope.PrintTarget = function(text){
+        $scope.TarSenPol.push(text.data);
+        if ($scope.TarSenPol.length == $scope.UniqueTargetList.length) {
+            // console.log('aa')
+            // console.log($scope.TarSenPol)
+
+        }
+    }
+    $scope.PrintCategory = function(text) {
+        $scope.CatSenPol.push(text.data);
+        if ($scope.CatSenPol.length == $scope.UniqueCategoryList.length) {
+            console.log('bb')
+            console.log($scope.CatSenPol)
+
+        }
+    }
+
+    $scope.updateSelected = function() {
+        $scope.InputComments = $scope.selectDemo.comments
     }
 
 
@@ -267,43 +322,29 @@ function View1Ctrl($rootScope, $scope, $http) {
     // }
 
 
-    // $scope.ShowId = function(event) {
-    //     $scope.showCategory = true;
-    //     $scope.returnCategory=$scope.UniqueTargetList[event.target.id].category;
+
+
+
+    $scope.ShowId = function(event) {
+        $scope.showCategory = true;
+        $scope.returnCategory=$scope.UniqueTargetList[event.target.id].category;
         
-    //     //remove duplicate category
-    //     var flags = [],
-    //         output = [],
-    //         l = $scope.returnCategory.length,
-    //         i;
-    //     $scope.uniqreturnCategory = []
-    //     // console.log($scope.returnCategory.length)
-    //     for (i = 0; i < l; i++) {
-    //         if (flags[$scope.returnCategory[i].category]) continue;
-    //         flags[$scope.returnCategory[i].category] = true;
-    //         $scope.uniqreturnCategory.push({uniqcategory:$scope.returnCategory[i].category});
-    //     }
-    //     console.log(1)
-    //     console.log($scope.uniqreturnCategory)     
+        //remove duplicate category
+        var flags = [],
+            output = [],
+            l = $scope.returnCategory.length,
+            i;
+        $scope.uniqreturnCategory = []
+        // console.log($scope.returnCategory.length)
+        for (i = 0; i < l; i++) {
+            if (flags[$scope.returnCategory[i].category]) continue;
+            flags[$scope.returnCategory[i].category] = true;
+            $scope.uniqreturnCategory.push({uniqcategory:$scope.returnCategory[i].category});
+        }
+        console.log(1)
+        console.log($scope.uniqreturnCategory)     
 
-    // };
-
-    $scope.TarSenPol = []
-    $scope.CatSenPol = []
-
-    $scope.PrintTarget = function(text){
-        $scope.TarSenPol.push(text.data);
-        console.log('TarSenPol');
-        console.log($scope.TarSenPol);
-    }
-    
-
-    $scope.PrintCategory = function(text) {
-        $scope.CatSenPol.push(text.data);
-        console.log('CatSenPol')
-        console.log($scope.CatSenPol)
-    }
-    
+    };
 
 
 }

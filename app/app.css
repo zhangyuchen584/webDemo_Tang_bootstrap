@@ -23,6 +23,7 @@ background: #f7f7f7;
 margin: 20px;
 padding: 10px 20px 10px 20px
 }
+
 .title{
 font-family: Arial,serif;
 color: #6e6e6e;
@@ -82,7 +83,7 @@ cursor: pointer;
   .dropdown:hover .dropdown-content {
   display: block;
   }
-  body{ font-size:14px;}
+  /*body{ font-size:14px;}*/
   input{ vertical-align:middle; margin:0; padding:0}
   .file-box{ position:relative; width:200px;}
   .txt{ height:22px; border:1px solid #cdcdcd; width:110px;padding: 0px 0px 0px 10px }
