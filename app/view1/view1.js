@@ -25,9 +25,10 @@ function View1Ctrl($rootScope, $scope, $http) {
 
     //demo button
     $scope.demos = {
-        D1 : {comments : "But the staff was so horrible to us."},
-        D2 : {comments : "We always have a delicious meal and always leave feeling satisfied."},
-        D3 : {comments : "But the staff was so horrible to us.We always have a delicious meal and always leave feeling satisfied."}
+        D1 : {comments : "But the staff was so horrible to us.\nThe Bagels have an outstanding taste with a terrific texture, both chewy yet not gummy.\nNevertheless the food itself is pretty good.\nI would definitely recommend Mary's and am making it one of my regular neighborhood haunts.\nBest of all is the warm vibe, the owner is super friendly and service is fast.\nFrom the incredible food, to the warm atmosphere, to the friendly service, this downtown neighborhood spot doesn't miss a beat.\nAll my co-workers were amazed at how small the dish was.\nThe atmosphere is unheralded, the service impecible, and the food magnificant.\nWe ordered the special, grilled branzino, that was so infused with bone, it was difficult to eat.\nThe wait staff is friendly, and the food has gotten better and better!\nI also recommend the rice dishes or the different varieties of congee (rice porridge).\nTheir tuna tartar appetizer is to die for.\nThis was one of the BEST restaurants I've ever been to.\nThe lava cake dessert was incredible and I recommend it.\nNot impressed with the food.\nOrder the panang duck, it's fantastic.\nYou are treated just like royality.\nAmbiance- relaxed and stylish.\nLuckily we saved room for the BBQ Salmon, Sea Bass and Crispy Duck.\nand yes Dal Bukhara is so dam good and so are all the kababs.\nI look forward to eating here again\nThe pizza here is delicious."},
+        D2 : {comments : "The food is good.\nThe food is bad.\nThe food is terrible\nthe food is expensive.\nthe ice cream is delicious.\nthe ice cream is expensive\nthe food is normal.\nthe fruit is good, but the price is so expensive."},
+        D3 : {comments : "The place is so cool and the service is prompt and curtious.\nThe wine list is excellent.\nFabulous service, fantastic food, and a chilled out atmosphere and environment.\nPricey, but worth a try, at least once.\nWe always have a delicious meal and always leave feeling satisfied.\nMy husbands was perfect, my was well done and dry.\nThe pizza was pretty good and huge.\nThe food was bland oily.\nThe food, drinks and service are clearly among the best in the city.\nHave recommended the place to friends, always gets good response.\nThe hostess is rude to the point of being offensive.\nThe only thing more wonderful than the food (which is exceptional) is the service.\nThe food was just awful, ATROCIOUS actually.\nword of advice, save room for pasta dishes and never leave until you've had the tiramisu.\nOpen late (well as late as I ever got there and I'm a night person)\nThe most annoying thing, though, is the fact that the servers seem to be trained to drive revenue.\nthe drinks are amazing and half off till 8pm."},
+        D4 : {comments : "Ive been to many Thai restaurants in Manhattan before, and Toons is by far the best Thai food Ive had (except for my mom's of course)."},
     }
 
     //hide target,category,comment first
@@ -151,9 +152,10 @@ function View1Ctrl($rootScope, $scope, $http) {
         $scope.showCategory = true;
 
         $scope.TargetPolarity($scope.UniqueTargetList) 
-        console.log($scope.UniqueCategoryList)
-        $scope.CategoryPolarity($scope.UniqueCategoryList) 
 
+        
+        $scope.CategoryPolarity($scope.UniqueCategoryList) 
+        // console.log($scope.UniqueCategoryList)
 
 
     }
@@ -173,7 +175,7 @@ function View1Ctrl($rootScope, $scope, $http) {
 
             // TarComPair = Object.keys(text[item])[0]+'.'+ text[item].target + '.comment. ' + text[item].comment
             TarComPair = 'target.'+ text[item].target + '.comment. ' + text[item].comment
-            // console.log(TarComPair)
+            // console.log(text[item])
             
             $http.post(destinationURL, TarComPair, config).then($scope.PrintTarget, $scope.errorOutput);
 
@@ -191,6 +193,7 @@ function View1Ctrl($rootScope, $scope, $http) {
                 }
 
             });
+
             // console.log(text[item])
             var destinationURL = 'http://localhost:8088';
             //var destinationURL = '10.218.112.25:12341';
@@ -200,7 +203,7 @@ function View1Ctrl($rootScope, $scope, $http) {
                 },
             }
             // TarComPair = Object.keys(text[item])[0]+'.'+ text[item].target + '.comment. ' + text[item].comment
-            CatComPair = 'category.'+ text[item].category + '.comment. ' + text[item].comment
+            CatComPair = 'category.'+ text[item].cat + '.comment. ' + text[item].comment
             // console.log(TarComPair)
             
             $http.post(destinationURL, CatComPair, config).then($scope.PrintCategory, $scope.errorOutput);
@@ -276,12 +279,13 @@ function View1Ctrl($rootScope, $scope, $http) {
     }
 
     $scope.PrintCategory = function(text) {
-        Object.keys(catDicMapping).map(function(key, index) {
-            if (catDicMapping[key].category == text.data.term) {
-                text.data.category = catDicMapping[key].catMapping
-            }
+        console.log(text)
+        // Object.keys(catDicMapping).map(function(key, index) {
+        //     if (catDicMapping[key].category == text.data.term) {
+        //         text.data.category = catDicMapping[key].catMapping
+        //     }
 
-        });
+        // });
 
         $scope.CatSenPol.push(text.data);
         if ($scope.CatSenPol.length == $scope.UniqueCategoryList.length) {
@@ -290,10 +294,10 @@ function View1Ctrl($rootScope, $scope, $http) {
             TemArray2 = []
             $scope.catOutPut = []
             for (var item in $scope.CatSenPol){
-                TemArray2[$scope.CatSenPol[item].category] = []
+                TemArray2[$scope.CatSenPol[item].term] = []
             }
             for (var item in $scope.CatSenPol){
-                TemArray2[$scope.CatSenPol[item].category].push($scope.CatSenPol[item])
+                TemArray2[$scope.CatSenPol[item].term].push($scope.CatSenPol[item])
             }
             for (term in TemArray2){
                 $scope.catOutPut.push(TemArray2[term])
@@ -343,113 +347,6 @@ function View1Ctrl($rootScope, $scope, $http) {
     $scope.updateSelected = function() {
         $scope.InputComments = $scope.selectDemo.comments
     }
-
-
-
-    // $scope.extractTargetData = function(analysisSentence) {
-    //     // console.log("successsssssssssss");
-
-    //     $scope.analysisArray = [];
-    //     //var analysisResultObject = JSON.parse(analysisTitle1);
-    //     console.log(analysisSentence)
-    //     var analysisResultObject = analysisSentence.data;
-
-    //     var sentences = analysisResultObject.sentences;        
-    //     $scope.UniqueTargetList = [];
-    
-
-    //     for (var i = 0; i < sentences.length; i++) {
-    //         var sentence = sentences[i];
-    //         var opinions = sentence.opinions; //target,category,polarity
-    //         var text = sentence.text;
-    //         // var tokenizedText = sentence.tokenizedText;
-
-    //         for (var j = 0; j < opinions.length; j++) {
-    //             var analysisObj = {};
-    //             var opinion = opinions[j];
-    //             analysisObj['category'] = opinion.category;
-    //             analysisObj['polarity'] = opinion.polarity;
-    //             analysisObj['target'] = opinion.target;
-
-    //             if (analysisObj['target'] == 'NULL') {
-    //                 continue;
-    //                 console.log('ISNULL');
-
-    //             }
-
-    //             analysisObj['text'] = text;
-    //             // analysisObj['tokenizedText'] = tokenizedText;
-    //             $scope.analysisArray.push(analysisObj);
-
-    //         }
-
-    //     }
-
-        
-    //     // remove duplicate target
-    //     var flags = [],
-    //         output = [],
-    //         l = $scope.analysisArray.length,
-    //         i;
-    //     for (i = 0; i < l; i++) {
-    //         if (flags[$scope.analysisArray[i].target]) continue;
-    //         flags[$scope.analysisArray[i].target] = true;
-    //         $scope.UniqueTargetList.push({target: $scope.analysisArray[i].target,
-    //             targetNegVol: 0, targetPosiVol:0,targetNeutVol:0,category:[],targetNegSent:[],targetPosiSent:[],targetNeutSent:[]});
-            
-    //     }
-        
-    //     for (i=0;i<$scope.UniqueTargetList.length;i++){
-    //         for (j=0;j<$scope.analysisArray.length;j++){
-    //             if ($scope.UniqueTargetList[i].target == $scope.analysisArray[j].target) {
-    //                 $scope.UniqueTargetList[i].category.push({category:$scope.analysisArray[j].category});
-    //             if ($scope.analysisArray[j].polarity == "negative"){$scope.UniqueTargetList[i].targetNegVol++;
-    //                 $scope.UniqueTargetList[i].targetNegSent.push({category:$scope.analysisArray[j].text})}
-    //             else {
-    //                 if ($scope.analysisArray[j].polarity == "positive"){$scope.UniqueTargetList[i].targetPosiVol++;
-    //                     $scope.UniqueTargetList[i].targetPosiSent.push({category:$scope.analysisArray[j].text})} 
-    //                     else {$scope.UniqueTargetList[i].targetNeutVol++;
-    //                         $scope.UniqueTargetList[i].targetNeutSent.push({category:$scope.analysisArray[j].text})}
-    //             }
-    //             }
-    //             else {
-    //                 continue;
-    //             }
-                
-    //         }
-    //     }
-    //     console.log($scope.UniqueTargetList)
-    //     console.log($scope.analysisArray);
-        
-    //     $scope.showTarget = true;
-        
-    // }
-
-
-    // $scope.rateArray = [{
-    //     'width': '20%'
-    // }, {
-    //     'width': '30%'
-    // }, {
-    //     'width': '50%'
-    // }];
-
-    // $scope.rate = {
-    //     nagetive: $scope.rateArray[0],
-    //     normal: $scope.rateArray[1],
-    //     positive: $scope.rateArray[2]
-    // }
-
-
-
-    // $scope.updateComment = function(number) {
-    //     $scope.commentNumber = number;
-    // }
-
-    // $scope.errorOutput = function() {
-    //     console.log("errooooooooooor");
-    // }
-
 
    
     $scope.ShowId1 = function(event) {

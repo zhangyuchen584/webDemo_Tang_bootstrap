@@ -6,6 +6,7 @@
         <link href="../bootstrap-responsive.css" rel="stylesheet">
     </head>
     <body>
+        <img  src="../I2R.png" width= 8% style="margin: 3px 0px -15px 22px" />
         <div class="background "><!-- row-fluid -->
         <!-- <div class="span12"> -->
         <!-- show_demo -->
@@ -76,7 +77,7 @@
 <div class="background" id="categories" ng-if="showCategory">
     <div class="title">CATEGORIES</div>
     <div class="wrapper"  ng-repeat = "cat in catOutPut">
-        <div class="card-body card-target" type="button" data-ng-click="ShowId2($event)" id={{$index}} >{{cat[0].category}}</div>
+        <div class="card-body card-target" type="button" data-ng-click="ShowId2($event)" id={{$index}} >{{cat[0].term}}</div>
         <div class="blog-body">
             <div class="progress1">
                 <div class="bar1 bar-success1" ng-style="{ 'width': (cat.P0/(cat.P0+cat.P1+cat.P2)*100) + '%' }">Negative</div>
@@ -98,18 +99,14 @@
 </nav>
 <section>
 <div class="comment" ng-if="showComment">
-    <!-- <div class='wave -one'></div> -->
-    <!-- <div class='wave -two'></div> -->
-    <!-- <div class='wave -three'></div> -->
-    <!-- <div class='comments'>Comments</div> -->
     <div class="title" style="text-align:center;">COMMENTS</div>
-    <div class="card-target">Neg</div>
+    <!-- <table bgcolor="#00FF00">1</table> -->
+    <div class="card-target" style="margin: 5px 0px 0px 3px">Negative</div><!-- style="color: #62c462" -->
     <div class="blog-body" ng-repeat = "comment in comments.P0Sen track by $index"><li>{{comment}}</li></div>
-    <div class="card-target">Pos</div>
+    <div class="card-target" style="margin: 5px 0px 0px 3px">Positive</div><!-- style="color:#fbb450" -->
     <div class="blog-body" ng-repeat = "comment in comments.P1Sen track by $index"><li>{{comment}}</li></div>
-    <div class="card-target">Neural</div>
+    <div class="card-target" style="margin: 5px 0px 0px 3px">Neural</div><!-- style="color:#ee5f5b" -->
     <div class="blog-body" ng-repeat = "comment in comments.P2Sen track by $index">{{comment}}</div>
-    <!-- <ol><li>a</li><li>b</li></ol> -->
 </div>
 </section>
 </container>
