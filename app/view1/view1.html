@@ -6,119 +6,112 @@
         <link href="../bootstrap-responsive.css" rel="stylesheet">
     </head>
     <body>
-
-        <div class="background row-fluid">
+        <div class="background "><!-- row-fluid -->
+        <!-- <div class="span12"> -->
+        <!-- show_demo -->
+        <div class="hh">title_showdemo</div>
+        <div class="row-fluid">
             <div class="span12">
-                <!-- show_demo -->
-                <div class="hh">title_showdemo</div>
+                <!-- title -->
+                <div class="title">TEXT</div>
                 <div class="row-fluid">
-                    <div class="span12">
-                        <!-- title -->
-                        <div class="title">TEXT</div>
+                    <div class="span10">
+                        <!-- textarea -->
+                        <textarea class="span12 inputarea" id="content" ng-model="InputComments" placeholder="Enter text to be analyzed..."></textarea>
                         <div class="row-fluid">
-                            <div class="span10">
-                            <!-- textarea -->
-                                <textarea class="span12 inputarea" id="content" ng-model="InputComments" placeholder="Enter text to be analyzed..."></textarea>
-                            <div class="row-fluid">
-                                <div class="span2">
-                                    <!-- demo -->
-                                    <select id="uiSel" class="span12 dropbtn button button-glow button-border button-rounded button-primary" ng-model="selectDemo" ng-options="x for (x,y) in demos" ng-change=updateSelected()>
-                                        <option value="">Demo</option>
-                                    </select>
-                                </div>
-                                <!-- <div ng-repeat="cat in catOutPut"> {{cat.P1}}</div> -->
-                                <!-- <div ng-repeat="cat in CatSenPol"> {{cat.polarity}}-{{cat.term}}</div> -->
-
-                                
-                            </div>
-                            </div>
                             <div class="span2">
-                                <!-- analyze button -->
-                                <a class="span12 button button-3d button-primary button-rounded analyze_button" ng-click="displayTarget(InputComments)">
-                                    ANALYZE
-                                </a>
-
+                                <!-- demo -->
+                                <select id="uiSel" class="span12 dropbtn button button-glow button-border button-rounded button-primary" ng-model="selectDemo" ng-options="x for (x,y) in demos" ng-change=updateSelected()>
+                                    <option value="">Demo</option>
+                                </select>
                             </div>
-                            <!-- <textarea>{{selectDemo.comments}}</textarea> -->        
-        
-        
-        
-
+                            <!-- <div ng-repeat="cat in catOutPut"> {{cat.P1}}</div> -->
+                            <!-- <div ng-repeat="cat in CatSenPol"> {{cat.polarity}}-{{cat.term}}</div> -->
+                            
                         </div>
                     </div>
+                    <div class="span2">
+                        <!-- analyze button -->
+                        <a class="span12 button button-3d button-primary button-rounded analyze_button" ng-click="displayTarget(InputComments)">
+                            ANALYZE
+                        </a>
+                    </div>
+                    <!-- <textarea>{{selectDemo.comments}}</textarea> -->
+                    
+                    
                     
                 </div>
             </div>
+            
         </div>
-
-
-
-        <container>
-        <nav>
-            <div class="background" id="target" ng-if="showTarget">
-                <div class="title">TARGETS</div>
-                <div class="card"  ng-repeat="tar in tarOutPut">
-                    <!-- <a  data-ng-click="ShowId($event)"> -->
-                    <div class="card-body card-target" type="button" data-ng-click="ShowId($event)" id={{$index}}>{{tar[0].term}}</div>
-
-                    <div >
-                        <div class="length" >
-                            <div class=" bar_text" ng-style="rateArray[$index]" ng-click="updateComment(number)">
-                                <span>{{tar.P0}}</span>
-                                <span>{{tar.P1}}</span>
-                                <span>{{tar.P2}}</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="length progress">
-                        <div ng-style="rate.nagetive" class="progress-bar progress-bar-success" >
-                            <span>+</span>
-                        </div>
-                        <div ng-style="rate.normal" class="progress-bar progress-bar-info" >
-                            <span>N</span>
-                        </div>
-                        <div  ng-style="rate.positive" class="progress-bar progress-bar-warning">
-                            <span>-</span>
-                        </div>
-                    </div>
-                </div>
+    </div>
+</div>
+<container class="row-fluid"><!-- class = "row-fluid" -->
+<nav > <!-- class = "span12" -->
+<div class="background" id="target" ng-if="showTarget">
+    <div class="title">TARGETS</div>
+    <div class="wrapper"  ng-repeat="tar in tarOutPut">
+        <!-- <a  data-ng-click="ShowId($event)"> -->
+        <div class="card-body card-target" type="button" data-ng-click="ShowId1($event)" id={{$index}}>{{tar[0].term}}</div>
+        <div class="blog-body">
+            <div class="progress1">
+                <div class="bar1 bar-success1" ng-style="{ 'width': (tar.P0/(tar.P0+tar.P1+tar.P2)*100) + '%' }">Negative</div>
+                <div class="bar1 bar-warning1" ng-style="{ 'width': (tar.P1/(tar.P0+tar.P1+tar.P2)*100) + '%' }">Positive</div>
+                <div class="bar1 bar-success1" ng-style="{ 'width': (tar.P2/(tar.P0+tar.P1+tar.P2)*100) + '%' }">Neural</div>
+                
             </div>
-            <div class="background" id="categories" ng-if="showCategory">
-                <div class="title">CATEGORIES</div>
-                <div class="card"  ng-repeat = "cat in catOutPut">
-                    <div class="card-body card-target" type="button">{{cat[0].term}}</div>
-                    <div class="card-body card-target" type="button">{{cat.P0}}{{cat.P1}}{{cat.P2}}</div>
-                    <div class="category_box">
-                        <div>
-                            <table class="category_card_txt"><tr><td><li>{{details.description}}</li></td>
-                            <td>
-                                <div class="length_small progress">
-                                    <div class="progress-bar progress-bar-success" style="width: 40%;">
-                                        <span>{{details.number}}</span>
-                                    </div>
-                                    <div class="progress-bar progress-bar-info" style="width: 30%;">
-                                        <span>{{details.number}}</span>
-                                    </div>
-                                    <div class="progress-bar progress-bar-warning" style="width: 30%;">
-                                        <span>{{details.number}}</span>
-                                    </div>
-                                </div>
-                            </td></tr></table>
-                        </div>
-                    </div>
-                </div>
+        </div>
+        <div class="blog-body">
+            <div class="progress">
+                <div class="bar bar-success" ng-style="{ 'width': (tar.P0/(tar.P0+tar.P1+tar.P2)*100) + '%' }">{{tar.P0}}</div>
+                <div class="bar bar-warning" ng-style="{ 'width': (tar.P1/(tar.P0+tar.P1+tar.P2)*100) + '%' }">{{tar.P1}}</div>
+                <div class="bar bar-danger"  ng-style="{ 'width': (tar.P2/(tar.P0+tar.P1+tar.P2)*100) + '%' }">{{tar.P2}}</div>
             </div>
-        </nav>
-        <section>
-            <div class='box' id="comments"  ng-if="showComment">
-                <div class='wave -one'></div>
-                <div class='wave -two'></div>
-                <div class='wave -three'></div>
-                <div class='comments'>Comments</div>
-                <div>{{commentNumber}}</div>
-                <div class="comments_text">the first time comments conchange funchting options value is the a best time of my h</div>
+            
+        </div>
+        
+        
+    </div>
+</div>
+<div class="background" id="categories" ng-if="showCategory">
+    <div class="title">CATEGORIES</div>
+    <div class="wrapper"  ng-repeat = "cat in catOutPut">
+        <div class="card-body card-target" type="button" data-ng-click="ShowId2($event)" id={{$index}} >{{cat[0].category}}</div>
+        <div class="blog-body">
+            <div class="progress1">
+                <div class="bar1 bar-success1" ng-style="{ 'width': (cat.P0/(cat.P0+cat.P1+cat.P2)*100) + '%' }">Negative</div>
+                <div class="bar1 bar-warning1" ng-style="{ 'width': (cat.P1/(cat.P0+cat.P1+cat.P2)*100) + '%' }">Positive</div>
+                <div class="bar1 bar-danger1"  ng-style="{ 'width': (cat.P2/(cat.P0+cat.P1+cat.P2)*100) + '%' }">Natural</div>
             </div>
-        </section>
-        </container>
-    </body>
+        </div>
+        <div class="blog-body">
+            <div class="progress">
+                <div class="bar bar-success" ng-style="{ 'width': (cat.P0/(cat.P0+cat.P1+cat.P2)*100) + '%' }">{{cat.P0}}</div>
+                <div class="bar bar-warning" ng-style="{ 'width': (cat.P1/(cat.P0+cat.P1+cat.P2)*100) + '%' }">{{cat.P1}}</div>
+                <div class="bar bar-danger"  ng-style="{ 'width': (cat.P2/(cat.P0+cat.P1+cat.P2)*100) + '%' }">{{cat.P2}}</div>
+            </div>
+        </div>
+        
+        
+    </div>
+</div>
+</nav>
+<section>
+<div class="comment" ng-if="showComment">
+    <!-- <div class='wave -one'></div> -->
+    <!-- <div class='wave -two'></div> -->
+    <!-- <div class='wave -three'></div> -->
+    <!-- <div class='comments'>Comments</div> -->
+    <div class="title" style="text-align:center;">COMMENTS</div>
+    <div class="card-target">Neg</div>
+    <div class="blog-body" ng-repeat = "comment in comments.P0Sen track by $index"><li>{{comment}}</li></div>
+    <div class="card-target">Pos</div>
+    <div class="blog-body" ng-repeat = "comment in comments.P1Sen track by $index"><li>{{comment}}</li></div>
+    <div class="card-target">Neural</div>
+    <div class="blog-body" ng-repeat = "comment in comments.P2Sen track by $index">{{comment}}</div>
+    <!-- <ol><li>a</li><li>b</li></ol> -->
+</div>
+</section>
+</container>
+</body>
 </html>

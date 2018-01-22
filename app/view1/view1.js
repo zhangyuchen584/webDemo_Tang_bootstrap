@@ -1,5 +1,9 @@
 //import {Http, Response} from '@angular/http'
 //angular.module('myApp.view1', ['ngRoute', 'http'])
+
+
+
+
 angular.module('myApp.view1', ['ngRoute'])
     .config(['$routeProvider', function($routeProvider) {
         $routeProvider.when('/view1', {
@@ -14,11 +18,16 @@ View1Ctrl.$inject = ['$rootScope', '$scope', '$http'];
 
 
 function View1Ctrl($rootScope, $scope, $http) {
+ 
+
+
+
+
     //demo button
     $scope.demos = {
-        D1 : {comments : "Facilisi facilisi nonummy lacus donec, dictumst pellentesque auctor mauris suscipit Ac cum et ornare massa per hac quis dis pellentesque. "},
-        D2 : {comments : "Facilisi facilisi nonummy lacus donec, dictumst pellentesque auctor mauris suscipit Ac cum et ornare massa per hac quis dis pellentesque. Hendrerit donec accumsan enim ad felis Scelerisque sit, class facilisi sociosqu cubilia risus ornare est montes mattis. Eget vitae nibh, aenean. Proin imperdiet hac aenean. Praesent tristique ac. "},
-        D3 : {comments : "The food is food. The food is food. The food is food. The food is food. the food is bad.  The food is expensive.  The ice cream is yummy. The ice cream is terrible."}
+        D1 : {comments : "But the staff was so horrible to us."},
+        D2 : {comments : "We always have a delicious meal and always leave feeling satisfied."},
+        D3 : {comments : "But the staff was so horrible to us.We always have a delicious meal and always leave feeling satisfied."}
     }
 
     //hide target,category,comment first
@@ -47,7 +56,7 @@ function View1Ctrl($rootScope, $scope, $http) {
     var test = 
         [{term:'food',polarity1:{po:1,sentence:{se1:'a',se2:'d'}}}
         ]
-        console.log(test)
+        // console.log(test)
         ++test[0].polarity1.po
 
     // Object.keys(catDicMapping).map(function(key,index){
@@ -62,7 +71,7 @@ function View1Ctrl($rootScope, $scope, $http) {
     $scope.displayTarget = function(analysisTitle) {
         //send http post request
         var destinationURL = 'http://localhost:8080';
-        console.log(destinationURL)
+        // console.log(destinationURL)
             //var destinationURL = '10.218.112.25:12341';
         var config = {
             headers: {'Content-Type': 'application/json'},
@@ -87,7 +96,7 @@ function View1Ctrl($rootScope, $scope, $http) {
 
     //extract Target and Category data with sentences respectively
     $scope.TargetCategoryData = function(InputComments) {
-        console.log("successsssssssssssful");
+        // console.log("successsssssssssssful");
 
         //re-arrange output format
         $scope.TargetList = []
@@ -142,7 +151,9 @@ function View1Ctrl($rootScope, $scope, $http) {
         $scope.showCategory = true;
 
         $scope.TargetPolarity($scope.UniqueTargetList) 
+        console.log($scope.UniqueCategoryList)
         $scope.CategoryPolarity($scope.UniqueCategoryList) 
+
 
 
     }
@@ -254,7 +265,7 @@ function View1Ctrl($rootScope, $scope, $http) {
                 $scope.tarOutPut[key].P2Sen = sen2
                 // console.log($scope.tarOutPut)
             })
-            console.log($scope.tarOutPut)
+            // console.log($scope.tarOutPut)
 
 
 
@@ -279,16 +290,16 @@ function View1Ctrl($rootScope, $scope, $http) {
             TemArray2 = []
             $scope.catOutPut = []
             for (var item in $scope.CatSenPol){
-                TemArray2[$scope.CatSenPol[item].term] = []
+                TemArray2[$scope.CatSenPol[item].category] = []
             }
             for (var item in $scope.CatSenPol){
-                TemArray2[$scope.CatSenPol[item].term].push($scope.CatSenPol[item])
+                TemArray2[$scope.CatSenPol[item].category].push($scope.CatSenPol[item])
             }
             for (term in TemArray2){
                 $scope.catOutPut.push(TemArray2[term])
             }
 
-            
+            console.log($scope.catOutPut)
             Object.keys($scope.catOutPut).map(function(key,index){
                 var p0 = 0
                 var p1 = 0
@@ -323,10 +334,11 @@ function View1Ctrl($rootScope, $scope, $http) {
                 $scope.catOutPut[key].P2Sen = sen2
                 // console.log($scope.catOutPut)
             })
-            console.log($scope.catOutPut)
+            // console.log($scope.catOutPut)
         }
     }
 
+  
 
     $scope.updateSelected = function() {
         $scope.InputComments = $scope.selectDemo.comments
@@ -439,11 +451,27 @@ function View1Ctrl($rootScope, $scope, $http) {
     // }
 
 
+   
+    $scope.ShowId1 = function(event) {
+        // alert(event.target.id);
+        // alert($scope.tarOutPut);
+        $scope.showComment = true;
+        $scope.comments = $scope.tarOutPut[event.target.id];
+        console.log($scope.comments);
 
+    };
+    $scope.ShowId2 = function(event) {
+        // alert(event.target.id);
+        // alert($scope.catOutPut);
+        $scope.showComment = true;
+        $scope.comments = $scope.catOutPut[event.target.id];
+        console.log($scope.comments);
+
+    };
 
 
     $scope.ShowId = function(event) {
-        $scope.showCategory = true;
+        // $scope.showComment = true;
         $scope.returnCategory=$scope.UniqueTargetList[event.target.id].category;
         
         //remove duplicate category
